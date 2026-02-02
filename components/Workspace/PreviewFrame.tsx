@@ -275,31 +275,31 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
         <AnimatePresence>
             {isReady && !isPatching && (
                 <motion.div 
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-lg px-4 z-40"
+                    initial={{ y: 20, opacity: 0, scale: 0.9 }}
+                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-50"
                 >
                     <form 
                         onSubmit={handleRefineSubmit}
-                        className="relative flex items-center gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-2xl border border-slate-200 ring-1 ring-slate-900/5 transition-all focus-within:ring-2 focus-within:ring-indigo-500/20"
+                        className="relative flex items-center gap-2 bg-white p-2 pl-4 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-indigo-100 ring-4 ring-white/50 focus-within:ring-indigo-500/20 transition-all transform hover:scale-[1.01]"
                     >
-                        <div className="pl-3 text-slate-400">
-                           {isRefining ? <Loader2 size={16} className="animate-spin text-indigo-500" /> : <Sparkles size={16} className="text-indigo-500" />}
+                        <div className="text-indigo-500 bg-indigo-50 p-2 rounded-full">
+                           {isRefining ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
                         </div>
                         <input 
                             type="text" 
                             value={refineInput}
                             onChange={(e) => setRefineInput(e.target.value)}
                             disabled={isRefining}
-                            placeholder="Refine app (e.g., 'Change theme to Emerald' or 'Update charts')..." 
-                            className="flex-1 bg-transparent border-none outline-none text-sm text-slate-700 placeholder:text-slate-400 h-9"
+                            placeholder="Ask the agent to refine (e.g., 'Change theme to Emerald')..." 
+                            className="flex-1 bg-transparent border-none outline-none text-base text-slate-800 placeholder:text-slate-500 h-10 px-2"
                         />
                         <button 
                             type="submit"
                             disabled={!refineInput || isRefining}
-                            className="p-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 text-white rounded-full transition-colors shadow-sm"
+                            className="p-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 text-white rounded-full transition-colors shadow-lg hover:shadow-indigo-500/30"
                         >
-                            <Send size={14} className={isRefining ? "opacity-0" : "opacity-100"} />
+                            <Send size={16} className={isRefining ? "opacity-0" : "opacity-100"} />
                         </button>
                     </form>
                 </motion.div>

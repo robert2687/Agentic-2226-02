@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Sidebar } from './components/Layout/Sidebar';
-import { MOCK_PROJECT_TEMPLATES, AGENTS } from './constants';
+import { MOCK_PROJECT_TEMPLATES, AGENTS, SYSTEM_PROMPT } from './constants';
 import { AgentPhase, ProjectState } from './types';
 import { SIMULATION_STEPS, createLog } from './services/simulationService';
 import { AgentVisualization } from './components/Workspace/AgentVisualization';
@@ -13,7 +13,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { 
     ArrowRight, Sparkles, AlertCircle, Play, Code as CodeIcon, Eye, Zap, Clock, FolderOpen, 
     MoreVertical, LayoutTemplate, Search, Book, FileText, Key, Cpu, Shield, Trash2, Bell, Save,
-    Maximize2, Minimize2, PanelLeftClose, PanelLeftOpen
+    Maximize2, Minimize2, PanelLeftClose, PanelLeftOpen, X, Copy
 } from 'lucide-react';
 
 const SAVED_PROJECTS = [
@@ -39,6 +39,7 @@ const App: React.FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSystemPromptOpen, setIsSystemPromptOpen] = useState(false);
   
   // Settings State
   const [settings, setSettings] = useState({
@@ -350,7 +351,7 @@ return {
         />
       )}
       
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 relative">
         
         {/* VIEW: HOME */}
         {mainView === 'home' && (
@@ -783,7 +784,10 @@ return {
                             <span className="hidden lg:inline">{isTerminalOpen ? 'Hide Terminal' : 'Show Terminal'}</span>
                         </button>
 
-                        <button className="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded text-gray-300 border border-gray-700 transition-colors">
+                        <button 
+                            onClick={() => setIsSystemPromptOpen(true)}
+                            className="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded text-gray-300 border border-gray-700 transition-colors"
+                        >
                             System Prompt
                         </button>
                         {/* Save Button */}
@@ -854,6 +858,47 @@ return {
                 <div className="text-center">
                     <p className="mb-4">No active session.</p>
                     <button onClick={() => setMainView('home')} className="text-primary hover:underline">Return Home</button>
+                </div>
+            </div>
+        )}
+
+        {/* System Prompt Modal */}
+        {isSystemPromptOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                <div className="bg-[#0e0e11] border border-slate-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] flex flex-col overflow-hidden animate-zoom-in">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-white/5">
+                        <h3 className="font-semibold text-white flex items-center gap-2">
+                            <Sparkles size={16} className="text-purple-400" />
+                            System Instructions
+                        </h3>
+                        <button 
+                            onClick={() => setIsSystemPromptOpen(false)}
+                            className="text-gray-400 hover:text-white hover:bg-white/10 p-1 rounded transition-colors"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+                    <div className="flex-1 overflow-auto p-0 bg-[#09090b]">
+                         <pre className="p-4 text-sm font-mono text-gray-300 whitespace-pre-wrap leading-relaxed selection:bg-purple-500/30">
+                            {SYSTEM_PROMPT}
+                         </pre>
+                    </div>
+                    <div className="p-4 border-t border-slate-800 bg-[#0e0e11] flex justify-end gap-2">
+                         <button 
+                            onClick={() => {
+                                navigator.clipboard.writeText(SYSTEM_PROMPT);
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-lg text-sm font-medium transition-colors"
+                        >
+                            <Copy size={16} /> Copy to Clipboard
+                         </button>
+                         <button 
+                            onClick={() => setIsSystemPromptOpen(false)}
+                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors"
+                        >
+                            Close
+                         </button>
+                    </div>
                 </div>
             </div>
         )}
