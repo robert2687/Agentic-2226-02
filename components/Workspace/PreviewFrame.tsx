@@ -222,8 +222,6 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
             <Bug size={10} />
             <span className="hidden sm:inline">Simulate Bug</span>
         </button>
-        
-        <ExternalLink className="w-4 h-4 text-slate-400 hover:text-slate-600 cursor-pointer" />
       </div>
 
       {/* Actual Preview Area */}
