@@ -93,8 +93,8 @@ const GeneratedSaaSDashboard = () => {
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#64748b'}} />
                     <YAxis axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#64748b'}} tickFormatter={(value) => `$${value}`} />
-                    <Tooltip 
-                        contentStyle={{backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff'}} 
+                    <Tooltip
+                        contentStyle={{backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff'}}
                         itemStyle={{color: '#fff'}}
                     />
                     <Area type="monotone" dataKey="sales" stroke={theme.stroke} strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
@@ -172,7 +172,7 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
     setIsRefining(true);
     // 1. Trigger App Logic (Logs)
     onRefine(refineInput);
-    
+
     // 2. Trigger Visual Logic (Mock Update) with delay to match "agent work"
     setTimeout(() => {
         dispatch({ type: 'REFINE_UI', payload: refineInput });
@@ -204,17 +204,17 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/50" />
           <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]/50" />
         </div>
-        
+
         <div className="flex gap-2 text-slate-400 mx-2">
             <button className="hover:text-slate-600"><RefreshCw size={14} className={isReloading ? "animate-spin" : ""} onClick={handleRefresh} /></button>
         </div>
 
         <div className="flex-1 bg-white border border-slate-300 rounded-md px-3 py-1 flex items-center gap-2 text-[10px] text-slate-500 font-mono shadow-sm">
-          <Lock className="w-3 h-3 text-emerald-500" /> 
+          <Lock className="w-3 h-3 text-emerald-500" />
           <span className="text-slate-700">localhost:3000/dashboard</span>
         </div>
-        
-        <button 
+
+        <button
              onClick={onTriggerError}
              disabled={isPatching}
              className="ml-2 text-[10px] flex items-center gap-1.5 px-2 py-1 bg-red-50 text-red-500 rounded border border-red-200 hover:bg-red-100 disabled:opacity-50 transition-colors"
@@ -228,7 +228,7 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
       <div className="flex-1 relative bg-slate-50 overflow-auto scrollbar-thin scrollbar-thumb-slate-300">
         <AnimatePresence>
           {(isReloading && !isPatching) && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -247,7 +247,7 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
          {/* Self-Healing Overlay (Error State) */}
          <AnimatePresence>
          {isPatching && (
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -262,10 +262,10 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
                 </p>
                 <div className="w-full max-w-lg bg-black/50 rounded-lg p-4 border border-red-900/50 font-mono text-xs text-left text-red-300 mb-4 shadow-2xl overflow-hidden">
                     <div className="opacity-50 border-b border-white/10 pb-2 mb-2">stderr output:</div>
-                    > Uncaught TypeError: Cannot read properties of undefined (reading 'map')<br/>
-                    > at RevenueChart (src/components/Dashboard/RevenueChart.tsx:45)<br/>
-                    <span className="text-blue-400 animate-pulse mt-2 block">> Analysis: "data" prop is missing from parent.</span>
-                    <span className="text-green-400 mt-1 block">> Action: Implementing optional chaining & default props.</span>
+                    {'> '}Uncaught TypeError: Cannot read properties of undefined (reading 'map')<br/>
+                    {'> '}at RevenueChart (src/components/Dashboard/RevenueChart.tsx:45)<br/>
+                    <span className="text-blue-400 animate-pulse mt-2 block">{'> '}Analysis: "data" prop is missing from parent.</span>
+                    <span className="text-green-400 mt-1 block">{'> '}Action: Implementing optional chaining & default props.</span>
                 </div>
             </motion.div>
         )}
@@ -274,27 +274,27 @@ const PreviewFrameContent: React.FC<Props> = ({ status, onTriggerError, onRefine
         {/* Refinement Floating Bar */}
         <AnimatePresence>
             {isReady && !isPatching && (
-                <motion.div 
+                <motion.div
                     initial={{ y: 20, opacity: 0, scale: 0.9 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
                     className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-50"
                 >
-                    <form 
+                    <form
                         onSubmit={handleRefineSubmit}
                         className="relative flex items-center gap-2 bg-white p-2 pl-4 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-indigo-100 ring-4 ring-white/50 focus-within:ring-indigo-500/20 transition-all transform hover:scale-[1.01]"
                     >
                         <div className="text-indigo-500 bg-indigo-50 p-2 rounded-full">
                            {isRefining ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
                         </div>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             value={refineInput}
                             onChange={(e) => setRefineInput(e.target.value)}
                             disabled={isRefining}
-                            placeholder="Ask the agent to refine (e.g., 'Change theme to Emerald')..." 
+                            placeholder="Ask the agent to refine (e.g., 'Change theme to Emerald')..."
                             className="flex-1 bg-transparent border-none outline-none text-base text-slate-800 placeholder:text-slate-500 h-10 px-2"
                         />
-                        <button 
+                        <button
                             type="submit"
                             disabled={!refineInput || isRefining}
                             className="p-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 text-white rounded-full transition-colors shadow-lg hover:shadow-indigo-500/30"
