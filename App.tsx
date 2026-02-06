@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Sidebar } from './components/Layout/Sidebar';
 import { MOCK_PROJECT_TEMPLATES, AGENTS, SYSTEM_PROMPT } from './constants';
 import { AgentPhase, ProjectState } from './types';
-import { SIMULATION_STEPS, createLog } from './services/simulationService';
+import { createLog } from './services/simulationService';
 import { AgentVisualization } from './components/Workspace/AgentVisualization';
 import { Terminal } from './components/Workspace/Terminal';
 import { PreviewFrame } from './components/Workspace/PreviewFrame';
 import { CodeEditor } from './components/Workspace/CodeEditor';
 import { CommandPalette } from './components/CommandPalette';
 import { initialAgents } from './lib/mockData';
+import { useAgentWorkflow } from './hooks/useAgentWorkflow';
+import { geminiService } from './services/geminiService';
+import type { AgentMode } from './services/agentOrchestrator';
 import { Panel, Group, Separator } from 'react-resizable-panels';
 import
 {
@@ -42,6 +45,7 @@ const App: React.FC = () =>
     const [ isTerminalOpen, setIsTerminalOpen ] = useState( true );
     const [ isSidebarOpen, setIsSidebarOpen ] = useState( true );
     const [ isSystemPromptOpen, setIsSystemPromptOpen ] = useState( false );
+    const [ agentMode, setAgentMode ] = useState<AgentMode>( 'hybrid' );
 
     // Settings State
     const [ settings, setSettings ] = useState( {
@@ -51,6 +55,32 @@ const App: React.FC = () =>
         verbose: false,
         notifications: true
     } );
+
+    // Agent workflow hook
+    const { startWorkflow, stopWorkflow, isRunning } = useAgentWorkflow(
+        ( log ) =>
+        {
+            setProjectState( ( prev ) =>
+            {
+                if ( !prev ) return null;
+                return {
+                    ...prev,
+                    logs: [ ...prev.logs, log ]
+                };
+            } );
+        },
+        ( phase ) =>
+        {
+            setProjectState( ( prev ) =>
+            {
+                if ( !prev ) return null;
+                return {
+                    ...prev,
+                    status: phase
+                };
+            } );
+        }
+    );
 
     const startProject = ( initialPrompt?: string ) =>
     {
@@ -72,24 +102,8 @@ const App: React.FC = () =>
         setIsFullScreen( false );
         setIsTerminalOpen( true );
 
-        // Run Simulation
-        let cumulativeDelay = 0;
-        SIMULATION_STEPS.forEach( ( step ) =>
-        {
-            cumulativeDelay += step.delay;
-            setTimeout( () =>
-            {
-                setProjectState( ( prev ) =>
-                {
-                    if ( !prev ) return null;
-                    return {
-                        ...prev,
-                        status: step.phase,
-                        logs: [ ...prev.logs, step.log ]
-                    };
-                } );
-            }, cumulativeDelay );
-        } );
+        // Start agent workflow with hybrid mode
+        startWorkflow( promptToUse, agentMode );
     };
 
     const openSavedProject = ( proj: typeof SAVED_PROJECTS[ 0 ] ) =>
@@ -693,6 +707,8 @@ return {
                                                     type="password"
                                                     value={ settings.apiKey }
                                                     onChange={ ( e ) => setSettings( { ...settings, apiKey: e.target.value } ) }
+                                                    aria-label="Gemini API Key"
+                                                    placeholder="sk-gemini-pro-xxxxxxxxxxxxxxxx"
                                                     className="w-full bg-black/30 border border-border rounded-lg py-2 pl-4 pr-10 text-sm text-gray-200 focus:outline-none focus:border-primary transition-colors font-mono"
                                                 />
                                                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -707,12 +723,32 @@ return {
                                             <select
                                                 value={ settings.model }
                                                 onChange={ ( e ) => setSettings( { ...settings, model: e.target.value } ) }
+                                                aria-label="Default Model"
                                                 className="w-full bg-black/30 border border-border rounded-lg py-2 px-4 text-sm text-gray-200 focus:outline-none focus:border-primary transition-colors"
                                             >
                                                 <option value="gemini-3-pro">Gemini 3.0 Pro (Recommended)</option>
                                                 <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
                                                 <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                                             </select>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-400 mb-1">Agent Mode</label>
+                                            <select
+                                                value={ agentMode }
+                                                onChange={ ( e ) => setAgentMode( e.target.value as AgentMode ) }
+                                                aria-label="Agent Mode"
+                                                className="w-full bg-black/30 border border-border rounded-lg py-2 px-4 text-sm text-gray-200 focus:outline-none focus:border-primary transition-colors"
+                                            >
+                                                <option value="hybrid">Hybrid (Auto-detect)</option>
+                                                <option value="ai">AI Only (Requires API Key)</option>
+                                                <option value="simulation">Demo Mode (No API)</option>
+                                            </select>
+                                            <p className="text-[10px] text-gray-500 mt-1">
+                                                { agentMode === 'hybrid' && 'Uses AI if available, falls back to demo' }
+                                                { agentMode === 'ai' && geminiService.isAvailable() ? '✓ AI Ready' : agentMode === 'ai' ? '⚠️ API key required' : '' }
+                                                { agentMode === 'simulation' && 'Running in offline demo mode' }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -734,6 +770,7 @@ return {
                                             </div>
                                             <button
                                                 onClick={ () => setSettings( { ...settings, autoHeal: !settings.autoHeal } ) }
+                                                aria-label="Toggle Autonomous Healing"
                                                 className={ `w-10 h-5 rounded-full relative transition-colors ${ settings.autoHeal ? 'bg-emerald-500' : 'bg-gray-600' }` }
                                             >
                                                 <div className={ `absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${ settings.autoHeal ? 'left-6' : 'left-1' }` } />
@@ -747,6 +784,7 @@ return {
                                             </div>
                                             <button
                                                 onClick={ () => setSettings( { ...settings, verbose: !settings.verbose } ) }
+                                                aria-label="Toggle Verbose Logging"
                                                 className={ `w-10 h-5 rounded-full relative transition-colors ${ settings.verbose ? 'bg-emerald-500' : 'bg-gray-600' }` }
                                             >
                                                 <div className={ `absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${ settings.verbose ? 'left-6' : 'left-1' }` } />
@@ -760,6 +798,7 @@ return {
                                             </div>
                                             <button
                                                 onClick={ () => setSettings( { ...settings, notifications: !settings.notifications } ) }
+                                                aria-label="Toggle System Notifications"
                                                 className={ `w-10 h-5 rounded-full relative transition-colors ${ settings.notifications ? 'bg-emerald-500' : 'bg-gray-600' }` }
                                             >
                                                 <div className={ `absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${ settings.notifications ? 'left-6' : 'left-1' }` } />
@@ -906,6 +945,7 @@ return {
                                 </h3>
                                 <button
                                     onClick={ () => setIsSystemPromptOpen( false ) }
+                                    aria-label="Close system prompt"
                                     className="text-gray-400 hover:text-white hover:bg-white/10 p-1 rounded transition-colors"
                                 >
                                     <X size={ 18 } />
