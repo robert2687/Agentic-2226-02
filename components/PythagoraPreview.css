@@ -1,0 +1,729 @@
+/* ============================================
+   PYTHAGORA PREVIEW - MAIN CONTAINER
+   ============================================ */
+.pythagora-container {
+    display: flex;
+    min-height: 100vh;
+    background: #0f1419;
+    color: #e5e7eb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.pythagora-sidebar {
+    width: 280px;
+    background: #0a0d12;
+    border-right: 1px solid #1a1f2e;
+    padding: 24px 16px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.pythagora-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.pythagora-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: #fbbf24;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f1419;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.pythagora-nav-section {
+    margin-bottom: 24px;
+}
+
+.pythagora-nav-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7280;
+    margin-bottom: 12px;
+    padding: 0 8px;
+}
+
+.pythagora-nav-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.pythagora-nav-item:hover {
+    background: #1a1f2e;
+    color: #e5e7eb;
+}
+
+.pythagora-nav-item.active {
+    background: #fbbf24;
+    color: #0f1419;
+    font-weight: 600;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.pythagora-main-content {
+    flex: 1;
+    display: flex;
+    gap: 24px;
+    padding: 32px;
+    overflow: hidden;
+}
+
+.pythagora-left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.pythagora-right-section {
+    width: 500px;
+    background: #1a1f2e;
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.pythagora-header {
+    margin-bottom: 32px;
+}
+
+.pythagora-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.pythagora-header p {
+    font-size: 15px;
+    color: #9ca3af;
+}
+
+/* ============================================
+   CARDS GRID
+   ============================================ */
+.pythagora-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.pythagora-card {
+    background: #1a1f2e;
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pythagora-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #fbbf24, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.pythagora-card:hover {
+    background: #212738;
+    border-color: #fbbf24;
+    transform: translateY(-2px);
+}
+
+.pythagora-card:hover::before {
+    transform: scaleX(1);
+}
+
+.pythagora-card-icon {
+    width: 48px;
+    height: 48px;
+    background: #2d3748;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.pythagora-card:hover .pythagora-card-icon {
+    background: #fbbf24;
+    color: #0f1419;
+}
+
+.pythagora-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.pythagora-card p {
+    font-size: 13px;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+/* ============================================
+   PROMPT SECTION
+   ============================================ */
+.pythagora-prompt-section {
+    background: #1a1f2e;
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.pythagora-prompt-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.pythagora-prompt-input-wrapper {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pythagora-prompt-input {
+    flex: 1;
+    background: #0f1419;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #e5e7eb;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.pythagora-prompt-input:focus {
+    outline: none;
+    border-color: #fbbf24;
+    background: #1a1f2e;
+}
+
+.pythagora-prompt-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pythagora-prompt-button {
+    background: #fbbf24;
+    color: #0f1419;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-end;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.pythagora-prompt-button:hover:not(:disabled) {
+    background: #fcd34d;
+    transform: translateY(-2px);
+}
+
+.pythagora-prompt-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.pythagora-prompt-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.pythagora-quick-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pythagora-quick-action {
+    background: #2d3748;
+    border: 1px solid #3f4558;
+    color: #9ca3af;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.pythagora-quick-action:hover {
+    background: #3f4558;
+    color: #e5e7eb;
+    border-color: #fbbf24;
+}
+
+/* ============================================
+   PHASE PROGRESS
+   ============================================ */
+.pythagora-phase-progress {
+    border-bottom: 1px solid #2d3748;
+    padding-bottom: 16px;
+}
+
+.pythagora-phase-progress h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #e5e7eb;
+}
+
+.pythagora-phases {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pythagora-phase-indicator {
+    flex: 1;
+    min-width: 90px;
+    padding: 8px 12px;
+    border: 2px solid #3f4558;
+    background-color: transparent;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Phase color variants */
+.pythagora-phase-planning.active {
+    border-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.125);
+    color: #bfdbfe;
+}
+
+.pythagora-phase-designing.active {
+    border-color: #a855f7;
+    background-color: rgba(168, 85, 247, 0.125);
+    color: #d8b4fe;
+}
+
+.pythagora-phase-architecting.active {
+    border-color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.125);
+    color: #fed7aa;
+}
+
+.pythagora-phase-coding.active {
+    border-color: #ec4899;
+    background-color: rgba(236, 72, 153, 0.125);
+    color: #fbcfe8;
+}
+
+.pythagora-phase-patching.active {
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.125);
+    color: #fca5a5;
+}
+
+.pythagora-phase-ready.active {
+    border-color: #10b981;
+    background-color: rgba(16, 185, 129, 0.125);
+    color: #a7f3d0;
+}
+
+.pythagora-phase-indicator.active {
+    border-color: currentColor;
+    color: #e5e7eb;
+}
+
+.pythagora-phase-indicator.completed {
+    opacity: 0.6;
+    color: #10b981;
+}
+
+.pythagora-phase-name {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   LOGS CONTAINER
+   ============================================ */
+.pythagora-logs-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.pythagora-logs-container h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #e5e7eb;
+}
+
+.pythagora-logs-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 8px;
+}
+
+.pythagora-logs-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.pythagora-logs-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pythagora-logs-list::-webkit-scrollbar-thumb {
+    background: #3f4558;
+    border-radius: 3px;
+}
+
+.pythagora-logs-list::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+
+.pythagora-log-entry {
+    display: flex;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+    background: #0f1419;
+    border-left: 3px solid #3f4558;
+}
+
+.pythagora-log-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.pythagora-log-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pythagora-log-agent {
+    font-weight: 600;
+    color: #fbbf24;
+}
+
+.pythagora-log-time {
+    font-size: 10px;
+    color: #6b7280;
+}
+
+.pythagora-log-message {
+    color: #d1d5db;
+    margin: 0;
+    word-break: break-word;
+}
+
+/* Log Type Styles */
+.pythagora-log-success {
+    border-left-color: #10b981;
+    background: #10b98120;
+}
+
+.pythagora-log-success .pythagora-log-message {
+    color: #6ee7b7;
+}
+
+.pythagora-log-error {
+    border-left-color: #ef4444;
+    background: #ef444420;
+}
+
+.pythagora-log-error .pythagora-log-message {
+    color: #fca5a5;
+}
+
+.pythagora-log-warning {
+    border-left-color: #f59e0b;
+    background: #f59e0b20;
+}
+
+.pythagora-log-warning .pythagora-log-message {
+    color: #fed7aa;
+}
+
+.pythagora-log-info {
+    border-left-color: #3b82f6;
+    background: #3b82f620;
+}
+
+.pythagora-log-info .pythagora-log-message {
+    color: #93c5fd;
+}
+
+.pythagora-log-system {
+    border-left-color: #8b5cf6;
+    background: #8b5cf620;
+}
+
+.pythagora-log-system .pythagora-log-message {
+    color: #d8b4fe;
+}
+
+/* ============================================
+   ERROR BOX
+   ============================================ */
+.pythagora-error-box {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #ef444420;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    color: #fca5a5;
+    font-size: 12px;
+    margin-top: 12px;
+}
+
+.pythagora-error-box span {
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+.pythagora-error-box p {
+    margin: 0;
+    word-break: break-word;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pythagora-card {
+    animation: slideIn 0.4s ease-out;
+}
+
+.pythagora-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.pythagora-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.pythagora-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.pythagora-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1400px) {
+    .pythagora-main-content {
+        padding: 24px;
+        gap: 20px;
+    }
+
+    .pythagora-right-section {
+        width: 420px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .pythagora-sidebar {
+        width: 240px;
+        padding: 16px;
+    }
+
+    .pythagora-main-content {
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .pythagora-right-section {
+        width: 380px;
+    }
+
+    .pythagora-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .pythagora-main-content {
+        flex-direction: column;
+    }
+
+    .pythagora-right-section {
+        width: 100%;
+        height: 350px;
+    }
+
+    .pythagora-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .pythagora-container {
+        flex-direction: column;
+    }
+
+    .pythagora-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #1a1f2e;
+        padding: 12px;
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+    }
+
+    .pythagora-nav-section {
+        display: flex;
+        gap: 8px;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .pythagora-nav-section-title {
+        display: none;
+    }
+
+    .pythagora-main-content {
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .pythagora-right-section {
+        width: 100%;
+        height: auto;
+    }
+
+    .pythagora-header h1 {
+        font-size: 22px;
+    }
+
+    .pythagora-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pythagora-prompt-input-wrapper {
+        flex-direction: column;
+    }
+
+    .pythagora-prompt-button {
+        align-self: flex-start;
+    }
+
+    .pythagora-phases {
+        justify-content: space-between;
+    }
+
+    .pythagora-phase-indicator {
+        flex-basis: calc(20% - 6px);
+    }
+}
+
+@media (max-width: 480px) {
+    .pythagora-main-content {
+        padding: 12px;
+    }
+
+    .pythagora-header h1 {
+        font-size: 18px;
+    }
+
+    .pythagora-prompt-input {
+        min-height: 80px;
+        font-size: 13px;
+    }
+
+    .pythagora-log-entry {
+        font-size: 11px;
+    }
+
+    .pythagora-quick-actions {
+        flex-direction: column;
+    }
+
+    .pythagora-quick-action {
+        width: 100%;
+    }
+}
