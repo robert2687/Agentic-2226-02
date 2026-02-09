@@ -165,9 +165,18 @@
         summary {
             cursor: pointer;
             color: #93c5fd;
+            -webkit-user-select: none;
             user-select: none;
             padding: 4px 0;
             font-size: 13px;
+        }
+
+        .details-content {
+            margin-top: 8px;
+        }
+
+        .tab-hidden {
+            display: none;
         }
 
         summary:hover {
@@ -324,7 +333,7 @@
                     <p><strong>Vectors:</strong> 0</p>
                     <details class="collapse">
                         <summary>Neural Directives</summary>
-                        <p style="margin-top: 8px;">Logic synthesis is deterministic. Complexity bounds: O(N log N).</p>
+                        <p class="details-content">Logic synthesis is deterministic. Complexity bounds: O(N log N).</p>
                     </details>
                 </div>
             </section>
@@ -345,7 +354,7 @@
   return &lt;div&gt;Ready for S&lt;/div&gt;
 }</code></pre>
                     </div>
-                    <div id="tab-preview" class="tab-content" style="display: none;">
+                    <div id="tab-preview" class="tab-content tab-hidden">
                         <div class="preview-wrapper">
                             <h3 class="preview-title">Live Preview</h3>
                             <div class="preview-box">
@@ -353,7 +362,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-tests" class="tab-content" style="display: none;">
+                    <div id="tab-tests" class="tab-content tab-hidden">
                         <div class="tests-wrapper">
                             <h3 class="tests-title">Test Results</h3>
                             <ul class="tests-list">

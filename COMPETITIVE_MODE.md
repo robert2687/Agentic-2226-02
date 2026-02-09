@@ -17,7 +17,7 @@ The **Competitive Mode** UI is a simplified, high-performance layout for the Age
 
 ## File Structure
 
-```
+```text
 components/
 ├── AgenticStudioCompetitive.tsx    # React component
 ├── AgenticStudioCompetitive.css    # Styles (shared with preview)
@@ -66,12 +66,12 @@ import CompetitivePreview from './CompetitivePreview';
 
 ## Props API
 
-| Prop              | Type             | Default | Description                          |
-|-------------------|------------------|---------|--------------------------------------|
-| `isRunning`       | `boolean`        | `false` | Shows "Processing" vs "All systems nominal" |
-| `pipelineContent` | `React.ReactNode`| Default | Custom content for Neural Pipeline panel |
-| `codeContent`     | `React.ReactNode`| Default | Custom content for Code Surface panel |
-| `logsContent`     | `React.ReactNode`| Default | Custom content for Neural Logs panel |
+| Prop              | Type              | Default | Description                                     |
+|-------------------|-------------------|---------|-------------------------------------------------|
+| `isRunning`       | `boolean`         | `false` | Shows "Processing" vs "All systems nominal"     |
+| `pipelineContent` | `React.ReactNode` | Default | Custom content for Neural Pipeline panel        |
+| `codeContent`     | `React.ReactNode` | Default | Custom content for Code Surface panel           |
+| `logsContent`     | `React.ReactNode` | Default | Custom content for Neural Logs panel            |
 
 ## Customization
 
