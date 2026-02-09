@@ -18,11 +18,13 @@ The **Competitive Mode** UI is a simplified, high-performance layout for the Age
 ## File Structure
 
 ```text
-components/
-├── AgenticStudioCompetitive.tsx    # React component
-├── AgenticStudioCompetitive.css    # Styles (shared with preview)
-CompetitivePreview.tsx              # React preview wrapper
-preview.html                         # Standalone HTML preview
+.
+├── components/
+│   ├── AgenticStudioCompetitive.tsx    # React component
+│   └── AgenticStudioCompetitive.css    # Styles (shared with preview)
+├── preview.html                        # Standalone HTML preview
+├── CompetitivePreview.tsx              # React preview wrapper
+└── COMPETITIVE_MODE.md                 # This file
 ```
 
 ## Usage
