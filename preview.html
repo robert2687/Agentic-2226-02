@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic Studio – Competitive Mode Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0f18;
+            color: #e5e7eb;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .app-shell {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* HEADER */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .app-subtitle {
+            font-size: 13px;
+            opacity: 0.8;
+            margin: 4px 0 0 0;
+        }
+
+        .status-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-chip,
+        .mode-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #111827;
+            border: 1px solid #334155;
+            font-size: 12px;
+        }
+
+        /* DESKTOP GRID */
+        .app-main {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        /* PANELS */
+        .panel {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        .panel-body {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #1e293b;
+            overflow: hidden;
+        }
+
+        .panel-body p {
+            margin: 6px 0;
+            font-size: 13px;
+        }
+
+        /* CODE AREA */
+        .code-area {
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            font-family: "JetBrains Mono", "Fira Code", Consolas, Monaco, monospace;
+            font-size: 12px;
+            color: #e5e7eb;
+            white-space: pre;
+            line-height: 1.6;
+        }
+
+        code {
+            color: #93c5fd;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background: #0f172a;
+            color: #e5e7eb;
+            border-color: #475569;
+        }
+
+        .tab:hover:not(.active) {
+            background: #2d3748;
+            transform: translateY(-1px);
+        }
+
+        /* COLLAPSIBLE */
+        details {
+            margin-top: 10px;
+        }
+
+        details.collapse {
+            margin-top: 10px;
+        }
+
+        summary {
+            cursor: pointer;
+            color: #93c5fd;
+            user-select: none;
+            padding: 4px 0;
+            font-size: 13px;
+        }
+
+        summary:hover {
+            color: #bfdbfe;
+        }
+
+        /* LOGS */
+        .logs {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .logs::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .logs::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+
+        .logs::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
+        .logs::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* PREVIEW & TESTS */
+        .preview-wrapper,
+        .tests-wrapper {
+            padding: 6px 0;
+        }
+
+        .preview-title,
+        .tests-title {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .preview-box {
+            padding: 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tests-list {
+            padding-left: 18px;
+            margin: 0;
+            font-size: 13px;
+            list-style-type: none;
+        }
+
+        .tests-list li {
+            margin-bottom: 6px;
+            color: #10b981;
+        }
+
+        .tests-list li::before {
+            content: "✓ ";
+            color: #10b981;
+        }
+
+        .tab-content {
+            margin-top: 8px;
+        }
+
+        /* MOBILE VERSION */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .status-group {
+                flex-wrap: wrap;
+            }
+
+            .app-main {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .code-area {
+                overflow-x: auto;
+            }
+
+            .logs {
+                max-height: 160px;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .panel:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .panel:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .panel:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-shell">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="title-group">
+                <h1 class="app-title">Agentic Studio – Competitive Mode</h1>
+                <p class="app-subtitle">Neural pipeline · Code surface · Runtime logs</p>
+            </div>
+
+            <div class="status-group">
+                <span class="status-chip">All systems nominal</span>
+                <span class="mode-chip">Competitive logic enabled</span>
+            </div>
+        </header>
+
+        <!-- MAIN GRID -->
+        <main class="app-main">
+            <!-- LEFT PANEL - Neural Pipeline -->
+            <section class="panel">
+                <h2 class="panel-title">Neural Pipeline</h2>
+                <div class="panel-body">
+                    <p><strong>Status:</strong> Stable</p>
+                    <p><strong>Vectors:</strong> 0</p>
+                    <details class="collapse">
+                        <summary>Neural Directives</summary>
+                        <p style="margin-top: 8px;">Logic synthesis is deterministic. Complexity bounds: O(N log N).</p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- CENTER PANEL - Code Surface -->
+            <section class="panel">
+                <h2 class="panel-title">Code Surface</h2>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('code', this)">Code</button>
+                    <button class="tab" onclick="switchTab('preview', this)">Preview</button>
+                    <button class="tab" onclick="switchTab('tests', this)">Tests</button>
+                </div>
+
+                <div class="panel-body code-area">
+                    <div id="tab-code" class="tab-content">
+                        <pre><code>export default function App() {
+  return &lt;div&gt;Ready for S&lt;/div&gt;
+}</code></pre>
+                    </div>
+                    <div id="tab-preview" class="tab-content" style="display: none;">
+                        <div class="preview-wrapper">
+                            <h3 class="preview-title">Live Preview</h3>
+                            <div class="preview-box">
+                                <div>Ready for S</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-tests" class="tab-content" style="display: none;">
+                        <div class="tests-wrapper">
+                            <h3 class="tests-title">Test Results</h3>
+                            <ul class="tests-list">
+                                <li>Component renders without crashing</li>
+                                <li>Displays correct text</li>
+                                <li>No runtime errors detected</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL - Neural Logs -->
+            <section class="panel">
+                <h2 class="panel-title">Neural Logs</h2>
+                <div class="panel-body logs">
+                    <p>[KERNEL] System operational.</p>
+                    <p>[TELEMETRY] Neural load stabilized.</p>
+                    <p>[MODE] Competitive logic enabled.</p>
+                    <p>[AGENT] Planner initialized.</p>
+                    <p>[AGENT] Designer initialized.</p>
+                    <p>[AGENT] Coder initialized.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function switchTab(tabName, buttonElement) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById('tab-' + tabName).style.display = 'block';
+
+            // Add active class to clicked tab
+            buttonElement.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

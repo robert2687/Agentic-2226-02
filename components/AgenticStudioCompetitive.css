@@ -1,4 +1,9 @@
 /* BASE LAYOUT */
+.competitive-preview-container {
+    min-height: 100vh;
+    background: #0b0f18;
+}
+
 body {
     background: #0b0f18;
     color: #e5e7eb;
