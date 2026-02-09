@@ -17,6 +17,7 @@ export const PythagoraPreview: React.FC<PythagoraPreviewProps> = ({ onProjectSta
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const [currentPhase, setCurrentPhase] = useState<AgentPhase | null>(null);
     const [projectState, setProjectState] = useState<ProjectState | null>(null);
+    const [activeNavItem, setActiveNavItem] = useState('New Project');
     const logsEndRef = useRef<HTMLDivElement>(null);
 
     // Use the agent workflow hook
@@ -56,6 +57,45 @@ export const PythagoraPreview: React.FC<PythagoraPreviewProps> = ({ onProjectSta
         };
 
         setPrompt(templates[action] || '');
+    };
+
+    const handleNavClick = (item: string) => {
+        setActiveNavItem(item);
+        // Handle navigation actions based on the item clicked
+        const actionMap: { [key: string]: () => void } = {
+            'Browse Templates': () => {
+                const template = 'Build a React dashboard with real-time data visualization.';
+                setPrompt(template);
+            },
+            'Competitive Mode': () => {
+                setPrompt('Create a competitive AI code generation setup with multiple agent strategies.');
+            },
+            'Pipeline Config': () => {
+                setPrompt('Configure an agent pipeline with custom model selection and execution parameters.');
+            },
+            'Agent Logs': () => {
+                setLogs(prev => [...prev, {
+                    id: Date.now().toString(),
+                    agent: 'SYSTEM',
+                    message: 'Viewing historical agent logs...',
+                    timestamp: new Date().toLocaleTimeString(),
+                    type: 'system'
+                }]);
+            },
+            'Documentation': () => {
+                alert('Opening Documentation...');
+            },
+            'API Reference': () => {
+                alert('Opening API Reference...');
+            },
+            'Examples': () => {
+                setPrompt('Show me examples of agent-based code generation with error self-healing.');
+            }
+        };
+
+        if (actionMap[item]) {
+            actionMap[item]();
+        }
     };
 
     const getPhaseColor = (phase: AgentPhase | string): string => {
@@ -101,22 +141,62 @@ export const PythagoraPreview: React.FC<PythagoraPreviewProps> = ({ onProjectSta
 
                 <div className="pythagora-nav-section">
                     <div className="pythagora-nav-section-title">Start</div>
-                    <div className="pythagora-nav-item active">New Project</div>
-                    <div className="pythagora-nav-item">Browse Templates</div>
+                    <button
+                        onClick={() => handleNavClick('New Project')}
+                        className={`pythagora-nav-item ${activeNavItem === 'New Project' ? 'active' : ''}`}
+                    >
+                        New Project
+                    </button>
+                    <button
+                        onClick={() => handleNavClick('Browse Templates')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Browse Templates' ? 'active' : ''}`}
+                    >
+                        Browse Templates
+                    </button>
                 </div>
 
                 <div className="pythagora-nav-section">
                     <div className="pythagora-nav-section-title">Recent</div>
-                    <div className="pythagora-nav-item">Competitive Mode</div>
-                    <div className="pythagora-nav-item">Pipeline Config</div>
-                    <div className="pythagora-nav-item">Agent Logs</div>
+                    <button
+                        onClick={() => handleNavClick('Competitive Mode')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Competitive Mode' ? 'active' : ''}`}
+                    >
+                        Competitive Mode
+                    </button>
+                    <button
+                        onClick={() => handleNavClick('Pipeline Config')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Pipeline Config' ? 'active' : ''}`}
+                    >
+                        Pipeline Config
+                    </button>
+                    <button
+                        onClick={() => handleNavClick('Agent Logs')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Agent Logs' ? 'active' : ''}`}
+                    >
+                        Agent Logs
+                    </button>
                 </div>
 
                 <div className="pythagora-nav-section">
                     <div className="pythagora-nav-section-title">Resources</div>
-                    <div className="pythagora-nav-item">Documentation</div>
-                    <div className="pythagora-nav-item">API Reference</div>
-                    <div className="pythagora-nav-item">Examples</div>
+                    <button
+                        onClick={() => handleNavClick('Documentation')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Documentation' ? 'active' : ''}`}
+                    >
+                        Documentation
+                    </button>
+                    <button
+                        onClick={() => handleNavClick('API Reference')}
+                        className={`pythagora-nav-item ${activeNavItem === 'API Reference' ? 'active' : ''}`}
+                    >
+                        API Reference
+                    </button>
+                    <button
+                        onClick={() => handleNavClick('Examples')}
+                        className={`pythagora-nav-item ${activeNavItem === 'Examples' ? 'active' : ''}`}
+                    >
+                        Examples
+                    </button>
                 </div>
             </aside>
 

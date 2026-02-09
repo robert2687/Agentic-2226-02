@@ -630,7 +630,13 @@ return {
                                             </div>
                                         </div>
 
-                                        <button className="w-full py-2 rounded-lg border border-border bg-black/20 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                                        <button 
+                                            onClick={() => {
+                                                setMainView('workspace');
+                                                setIsTerminalOpen(true);
+                                            }}
+                                            className="w-full py-2 rounded-lg border border-border bg-black/20 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                                        >
                                             View Logs
                                         </button>
                                     </div>
@@ -649,7 +655,13 @@ return {
                                     <h2 className="text-3xl font-bold text-white tracking-tight">System Configuration</h2>
                                     <p className="text-gray-400 mt-2">Manage global preferences for the Agentic Studio environment.</p>
                                 </div>
-                                <button className="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                <button 
+                                    onClick={() => {
+                                        // Settings are already saved via state changes
+                                        alert('Settings saved successfully!');
+                                    }}
+                                    className="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                                >
                                     <Save size={16} /> Save Changes
                                 </button>
                             </div>
@@ -779,7 +791,18 @@ return {
                                         <div className="text-sm text-gray-400">
                                             Reset simulation state and clear all local project data.
                                         </div>
-                                        <button className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                        <button 
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
+                                                    setSavedProjects([]);
+                                                    setProject(null);
+                                                    setMainView('home');
+                                                    localStorage.removeItem('agentic-saved-projects');
+                                                    alert('All data has been reset.');
+                                                }
+                                            }}
+                                            className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                                        >
                                             <Trash2 size={16} /> Reset All Data
                                         </button>
                                     </div>
